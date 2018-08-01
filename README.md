@@ -15,7 +15,7 @@ LIRI (Language Interpretation and Recognition Interface) is a Node.js app design
 ```
 node liri.js my-tweets
 ```
-  Sample Output (Please note, I don't have 20 tweets on my account, which was created for trial purposes only)
+  Sample Output (Please note, I don't have 20 tweets on my account. It was created for trial purposes only)
  
  ![Screenshot](images/tweets.png "Twitter")
  
