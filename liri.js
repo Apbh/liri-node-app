@@ -17,16 +17,16 @@ var nodeArgs = process.argv;
 
 //to take in specific commands, e.g. 'my tweets'
 var liriCommand = nodeArgs[2];
-var liriInput = nodeArgs[3];
-// for (var i = 3; i < nodeArgs.length; i++) {
-//     liriInput = liriInput + " " + nodeArgs[i];
-// }
+var liriInput = nodeArgs.slice(3).join(" ");
+
 
 //for movie name
 var movieName = "";
 
 //for song name
 var songName = "";
+
+var defaultSong = "The Sign ace of base";
 
 //----------------------------------------------------------------------
 
@@ -35,10 +35,14 @@ if (liriCommand === "my-tweets") {
     showTweets();
 }
 else if (liriCommand === "spotify-this-song") {
-    songInfo();
+    if (!liriInput){
+        songInfo(defaultSong);
+    } else{
+    songInfo(liriInput);
+    }
 }
 else if (liriCommand === "movie-this") {
-    movieInfo();
+    movieInfo(liriInput);
 }
 else if (liriCommand === "do-what-it-says") {
     liriDoThis();
@@ -84,15 +88,6 @@ function showTweets() {
 //SPOTIFY FUNCTION
 function songInfo(songName) {
 
-    var songName = process.argv.slice(3).join(" ");
-    console.log(songName);
-
-
-    if (liriInput === undefined) {
-
-        songName = "The Sign";
-
-    }
     
     //Search method
     spotify.search({ type: 'track', query: songName, limit: 5 }, function (err, data) {
@@ -149,20 +144,7 @@ function songInfo(songName) {
 //----------------------------------------------------------------------------------------------------------------------
 //OMBD FUNCTION
 
-function movieInfo() {
-
-    //take in movie name
-    for (var i = 3; i < nodeArgs.length; i++) {
-        if (i > 3 && i < nodeArgs.length) {
-            movieName = movieName + "+" + nodeArgs[i];
-        }
-        else {
-
-            movieName += nodeArgs[i];
-
-        }
-
-    }
+function movieInfo(movieName) {
 
     //variable to hold the link to the  OMBD API
     var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=true&apikey=trilogy";
@@ -228,24 +210,13 @@ function liriDoThis() {
 
         }
         else {
+
             // console.log(data);
             var dataArr = data.split(",");
+            console.log(dataArr);
+
+            songInfo(dataArr[1]);
             
-            //value for process.argv[2]
-            liriCommand = dataArr[0]; //spotify-this-song
-            console.log(liriCommand);
-
-            //takes in song name from random.txt and stores it in liriInput
-            liriInput = dataArr[1];
-            for(i=2; i<dataArr.length; i++){
-                liriInput = liriInput + "+" + dataArr[i];
-            }
-
-            songName = liriInput;
-            console.log(songName);
-
-
-          songInfo(songName);
             
         
 
